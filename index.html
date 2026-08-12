@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101828" />
+  <title>킨볼 클래스</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-ball">K</span><div><strong>킨볼 클래스</strong><small>수업 운영 보드</small></div></div>
+      <nav id="nav">
+        <button class="nav-item active" data-view="dashboard">⌂ <span>오늘의 수업</span></button>
+        <button class="nav-item" data-view="scoreboard">◉ <span>스마트 점수판</span></button>
+        <button class="nav-item" data-view="league">▦ <span>조별 리그</span></button>
+        <button class="nav-item" data-view="tournament">♛ <span>학급대항전</span></button>
+        <button class="nav-item" data-view="students">♟ <span>학생 명단</span></button>
+        <button class="nav-item" data-view="rules">▤ <span>킨볼 규칙</span></button>
+        <button class="nav-item signal-nav" data-view="signals">⚑ <span>심판 수신호</span></button>
+        <button class="nav-item" data-view="settings">⚙ <span>데이터 관리</span></button>
+      </nav>
+      <div class="sidebar-foot"><span class="status-dot"></span> 이 기기에 자동 저장 중</div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <button id="menuBtn" class="icon-btn menu-btn">☰</button>
+        <div><p class="eyebrow" id="todayLabel"></p><h1 id="pageTitle">오늘의 수업</h1></div>
+        <div class="top-actions"><span id="cloudStatus" class="cloud-status offline">기기 저장</span><button class="btn lock-btn" id="teacherLock">🔒 교사 잠금</button><label class="class-select">반 선택 <select id="classSelect"></select></label><button class="btn secondary" id="printBtn">인쇄</button></div>
+      </header>
+      <div id="syncWarning" class="sync-warning" hidden>⚠ 온라인 저장에 실패했습니다. 기기에는 저장되어 있으며 연결을 확인한 뒤 다시 시도하세요.</div>
+      <div id="teacherLockHint" class="teacher-lock-hint" hidden>🔒 점수·명단·수업 기록을 변경하려면 상단의 <b>교사 잠금</b>을 해제하세요.</div>
+
+      <section id="dashboard" class="view active">
+        <div class="lesson-session card"><div><span class="kicker">CURRENT LESSON</span><h3 id="lessonSessionLabel">오늘 수업</h3></div><button class="btn danger teacher-only" id="resetTrialScores">시범 점수 초기화</button><button class="btn primary teacher-only" id="newLesson">새 수업 시작</button><button class="btn secondary" id="loadLesson">이전 수업 불러오기</button><button class="btn secondary" id="semesterSummary">학기 누적 보기</button></div>
+        <div class="hero card"><img class="hero-scene" src="assets/kinball-class-hero.png" alt="큰 분홍색 킨볼을 함께 받는 학생들의 체육 수업 일러스트"><div class="hero-shade"></div><div class="hero-copy"><span class="pill">KIN-BALL CLASS</span><h2><em id="heroClass">1반</em>, 오늘도 함께 뛰어볼까요?</h2><p>수업 준비부터 경기 기록까지 한 화면에서 빠르게 시작하세요.</p><button class="btn primary" data-go="scoreboard">경기 시작하기 →</button></div></div>
+        <div class="stats-grid"><div class="stat card"><span>등록 학생</span><strong id="studentCount">0</strong><small>명</small></div><div class="stat card"><span>완료 경기</span><strong id="gameCount">0</strong><small>/ 16</small></div><div class="stat card"><span>현재 선두</span><strong id="leader">-</strong><small>조</small></div><div class="stat card"><span>출석 확인</span><strong id="attendance">0</strong><small>명</small></div></div>
+        <div class="two-col"><div class="card panel"><div class="panel-head"><div><span class="kicker">TODAY</span><h3>오늘의 경기 순서</h3></div><button class="text-btn" data-go="league">전체 보기</button></div><div id="miniSchedule"></div></div><div class="card panel"><div class="panel-head"><div><span class="kicker">QUICK GUIDE</span><h3>수업 전 체크</h3></div></div><div class="check-list"><label><input type="checkbox"> 킨볼 공기압과 코트 확인</label><label><input type="checkbox"> 조끼 색상별 배부</label><label><input type="checkbox"> 심판 역할과 수신호 안내</label><label><input type="checkbox"> 안전 거리와 구호 연습</label></div></div></div>
+        <div class="card today-summary"><div class="panel-head"><div><span class="kicker">LESSON SUMMARY</span><h3>오늘 수업 요약</h3></div><div><button class="btn secondary teacher-only" id="exportLesson">엑셀 저장</button> <button class="btn secondary" id="endLesson">수업 종료·요약</button></div></div><div id="todayGames"></div></div>
+      </section>
+
+      <section id="scoreboard" class="view">
+        <div class="progress-strip card"><strong id="progressBadge">1사이클 1경기 예정</strong><span id="nextMatchGuide"></span><div><button class="btn secondary" id="largeMode">큰 글씨</button><button class="btn secondary" id="fullscreenMode">전체화면</button></div></div>
+        <div class="score-head"><div><span class="live-dot"></span> 실시간 경기 <strong id="matchLabel">1경기</strong></div><div class="timer" id="timer">10:00</div><div class="timer-actions"><button class="btn primary" id="timerToggle">시작</button><button class="btn secondary" id="timerReset">초기화</button></div></div>
+        <div class="rule-timers card"><div><b>5초 히팅</b><strong id="fiveTimer">05</strong><button data-rule-timer="5">시작</button></div><div><b>10초 세팅</b><strong id="tenTimer">10</strong><button data-rule-timer="10">시작</button></div><label>효과음 <input id="volumeControl" type="range" min="0" max="100" value="60"><span id="volumeLabel">60%</span></label><label>동점 처리 <select id="tieSetting"><option value="shared">공동 승점</option><option value="score">득점 우선</option><option value="replay">재경기 표시</option></select></label><button class="btn secondary" id="undoScore">↶ 점수 되돌리기</button></div>
+        <div class="score-grid" id="scoreGrid"></div>
+        <div class="card lineup-guide"><div><span class="kicker">PLAYER ROTATION</span><h3>출전 학생 자동 안내</h3></div><div id="lineupGuide"></div></div>
+        <div class="score-controls card"><div><h3>현재 경기 운영</h3><p id="matchOperationText">경기 시작을 누르면 타이머와 경기 상태가 함께 시작됩니다.</p></div><label>경기 선택<select id="matchSelect"></select></label><button class="btn primary" id="startMatch">경기 시작</button><button class="btn danger" id="endMatch">경기 종료·저장</button><button class="btn primary" id="nextMatch">다음 경기로 이동</button></div>
+        <div class="card score-history"><div class="panel-head"><div><span class="kicker">SCORE LOG</span><h3>점수 변경 기록</h3></div><button class="btn secondary" id="undoFoul">직전 파울 취소</button></div><div id="scoreHistoryList"><p>아직 점수 변경 기록이 없습니다.</p></div></div>
+        <div class="court-note">심판 안내: 공격 팀은 반드시 “옴니킨”과 수비 팀 색상을 크게 외쳐주세요.</div>
+      </section>
+
+      <section id="league" class="view">
+        <div class="section-head"><div><p>자동 계산되는 반별 리그</p><h2><span id="leagueClass">1반</span> A·B·C·D조 순위</h2></div><div><button class="btn secondary teacher-only" id="resetLeague">리그 초기화</button></div></div>
+        <div class="card table-card"><table><thead><tr><th>순위</th><th>조</th><th>경기</th><th>승</th><th>무</th><th>패</th><th>득점</th><th>실점</th><th>득실</th><th>승점</th></tr></thead><tbody id="standingsBody"></tbody></table></div>
+        <div class="section-head compact"><div><p>4경기 × 4사이클 자동 로테이션</p><h2>경기 일정 및 결과</h2></div><span class="cycle-total">총 16경기</span></div><div id="scheduleGrid" class="schedule-grid"></div>
+      </section>
+
+      <section id="tournament" class="view">
+        <div class="section-head"><div><p>각 반 대표팀이 출전하는</p><h2>8개 반 학급대항전</h2></div><div><button class="btn secondary" id="resetClassMeet">대항전 초기화</button> <button class="btn primary" id="addTournament">학급대표 등록</button></div></div>
+        <div class="meet-guide card"><div><strong>8</strong><span>전체 경기</span></div><div><strong>3</strong><span>반별 출전</span></div><div><strong>1</strong><span>반별 심판</span></div><p>매 경기 <b>3개 반 대표팀</b>이 경기하고 <b>1개 반</b>이 학생 심판을 맡습니다. 모든 반의 출전·심판 횟수가 같습니다.</p></div>
+        <div class="section-head compact"><div><p>출전 3회 · 심판 1회 균등 배정</p><h2>대항전 운영표</h2></div></div>
+        <div class="card table-card meet-matrix-wrap"><table class="meet-matrix"><thead><tr><th>학급</th><th>대표 선수</th><th>1경기</th><th>2경기</th><th>3경기</th><th>4경기</th><th>5경기</th><th>6경기</th><th>7경기</th><th>8경기</th><th>승점</th><th>순위</th></tr></thead><tbody id="meetMatrixBody"></tbody></table></div>
+        <div class="section-head compact"><div><p>8경기 결과 자동 집계</p><h2>종합 순위</h2></div></div>
+        <div class="card table-card"><table><thead><tr><th>순위</th><th>학급</th><th>대표 선수</th><th>경기</th><th>승</th><th>무</th><th>패</th><th>득점</th><th>승점</th></tr></thead><tbody id="classRankBody"></tbody></table></div>
+        <div class="section-head compact"><div><p>3개 반 경기 · 학생 심판 1개 반</p><h2>경기별 점수 입력</h2></div></div><div id="tournamentGames" class="schedule-grid"></div>
+      </section>
+
+      <section id="students" class="view">
+        <div class="section-head"><div><p>명단과 출석을 한 번에</p><h2><span id="rosterClass">1반</span> 학생 관리</h2></div><div><button class="btn secondary teacher-only" id="resetAttendance">출석 초기화</button> <button class="btn secondary teacher-only" id="bulkStudents">명단 일괄 추가</button> <button class="btn primary teacher-only" id="addStudent">학생 1명 추가</button></div></div>
+        <div class="card team-balance" id="teamBalance"></div>
+        <div class="group-tabs" id="groupTabs"></div><div class="card table-card"><table><thead><tr><th>출석</th><th>학생</th><th>소속 조</th><th>득점</th><th>수비 성공</th><th>심판 참여</th><th>기록</th><th></th></tr></thead><tbody id="studentBody"></tbody></table><div id="emptyStudents" class="empty">학생을 추가해 조별 명단을 구성하세요.</div></div>
+      </section>
+
+      <section id="rules" class="view">
+        <div class="section-head"><div><p>학생이 바로 이해하는</p><h2>킨볼 핵심 규칙</h2></div></div>
+        <div class="rule-intro card"><span>K</span><div><b>3팀이 함께하는 협동 스포츠</b><p>한 팀 4명씩 총 3팀, 12명이 경기합니다. 호명된 팀은 공이 바닥에 닿기 전에 살려야 하며, 공격이나 수비에 실패하면 나머지 두 팀이 각각 1점을 얻습니다.</p></div></div>
+        <div class="rule-summary"><div><b>4명</b><span>한 팀</span></div><div><b>3팀</b><span>동시 경기</span></div><div><b>1.8m+</b><span>공격 거리</span></div><div><b>5초 / 10초</b><span>시간 규칙</span></div></div>
+        <div class="rules-grid"><article class="rule card"><b>01</b><h3>“옴니킨 + 색상!”</h3><p>세팅 후 공격 전에 옴니킨과 수비할 한 팀의 색상을 정확하게 외칩니다.</p></article><article class="rule card"><b>02</b><h3>4명이 함께 터치</h3><p>공을 치는 순간 팀원 4명 모두 공에 닿아 있어야 합니다.</p></article><article class="rule card"><b>03</b><h3>1.8m 이상 상향타</h3><p>손이나 팔로 공을 1.8m 이상, 수평 또는 위쪽 궤도로 보냅니다.</p></article><article class="rule card"><b>04</b><h3>바닥에 닿기 전 수비</h3><p>공이 바닥·라인·고정 장애물에 닿기 전에 받아 올립니다.</p></article><article class="rule card"><b>05</b><h3>실패하면 두 팀 득점</h3><p>수비 실패나 파울이 나오면 나머지 두 팀이 각각 1점을 얻습니다.</p></article><article class="rule card"><b>06</b><h3>접촉 없이 안전하게</h3><p>선수나 공의 진로를 고의로 방해하는 신체 접촉은 금지입니다.</p></article></div>
+        <div class="section-head compact"><div><p>판정할 때 펼쳐보는</p><h2>상세 규정</h2></div></div>
+        <div class="rule-details">
+          <details class="card" open><summary><i>01</i><span><b>서브하기</b><small>히트-인 · 1.8m 이상 · 상향타</small></span></summary><div><ul><li>서브는 손이나 팔로 시작하며 다리로 공격하면 파울입니다.</li><li>타격 순간 4명 모두 공에 닿아야 합니다.</li><li>1~2명만 공을 만진 상태에서는 이동하거나 패스할 수 있습니다.</li><li>공은 1.8m 이상 날아가며 수평 또는 위쪽 궤도를 그려야 합니다.</li></ul><p class="judge"><b>컨택미스</b> 타격 순간 한 명이라도 공에서 떨어지거나, 같은 팀 선수에게 공이 닿아 좌우 진행 방향이 바뀌면 파울입니다.</p><p class="judge"><b>트래핑</b> 손바닥과 팔 전체로 공을 잡아 정지시키면 파울입니다.</p></div></details>
+          <details class="card"><summary><i>02</i><span><b>호명하기</b><small>OMNIKIN + 한 가지 색상</small></span></summary><div><ul><li>세팅 후 공격 전에 “옴니킨”과 수비 팀 색상을 호명합니다.</li><li>재개 시에는 주심의 호각이 울린 다음 호명합니다.</li><li>정확하고 큰 발음으로 한 가지 색상만 말합니다.</li><li>호명과 공격 동작을 동시에 하면 파울입니다.</li></ul></div></details>
+          <details class="card"><summary><i>03</i><span><b>리시브하기</b><small>받기 · 이동 · 수비 거리</small></span></summary><div><ul><li>1~4명이 신체 어느 부위로든 받을 수 있습니다.</li><li>공이 바닥, 라인 또는 고정 장애물에 닿기 전에 수비합니다.</li><li>공의 껍질이나 공기 구멍을 잡아서는 안 됩니다.</li><li>세 번째 선수가 공에 닿은 순간부터 이동할 수 없습니다.</li><li>서브 순간 공격 팀의 1.8m 안에는 수비수 1명만 블록할 수 있습니다.</li></ul></div></details>
+          <details class="card"><summary><i>04</i><span><b>시간 규칙</b><small>10초 세팅 · 5초 히팅</small></span></summary><div><p><b>10초:</b> 첫 수비 선수가 공을 터치한 순간부터 세 번째 선수의 접촉, 세팅, 히팅까지 완료합니다.</p><p><b>5초:</b> 세팅 후 서비스 호각이 울리면 5초 안에 히팅합니다.</p></div></details>
+          <details class="card"><summary><i>05</i><span><b>공격 대상과 자유콜</b><small>순위에 따른 지목</small></span></summary><div><ul><li>1위 팀은 반드시 2위 팀을 공격합니다.</li><li>2·3위 팀은 반드시 1위 팀을 공격하며 서로 공격할 수 없습니다.</li><li>11점제에서 8점 도달 후에는 어느 팀이든 공격할 수 있습니다(자유콜).</li></ul></div></details>
+          <details class="card"><summary><i>06</i><span><b>득점 계산</b><small>실수하지 않은 두 팀 +1점</small></span></summary><div><p>서브·리시브 실패, 콜 미스 또는 파울이 발생하면 나머지 두 팀이 각각 1점을 얻습니다. 스마트 점수판의 <b>파울</b> 버튼도 같은 방식으로 계산합니다.</p></div></details>
+          <details class="card warning-detail"><summary><i>07</i><span><b>경고와 스포츠맨십</b><small>신체 접촉 금지</small></span></summary><div><ul><li>상대에게 상처를 줄 수 있는 행동이나 말을 하지 않습니다.</li><li>선수 사이 또는 선수와 공 사이를 고의로 방해하지 않습니다.</li><li>심판 판정에 불복종하거나 비매너 행동을 하지 않습니다.</li></ul><p class="safety">경기 결과보다 서로의 안전과 존중이 먼저입니다.</p></div></details>
+        </div>
+      </section>
+
+      <section id="signals" class="view">
+        <div class="section-head signal-heading"><div><p>학생 심판을 위한</p><h2>킨볼 심판 수신호 14가지</h2></div><button class="btn secondary" id="signalFullscreen">크게 보기</button></div>
+        <div class="signal-tip card"><span>★</span><p><b>수행 방법</b> 선생님이 명칭을 불러주고 “하나, 둘, 셋” 하면 바로 동작하세요. 오른손을 기준으로 하되 좌우가 조금 달라도 의미가 분명하면 됩니다.</p></div>
+        <figure class="signal-board card" id="signalBoard"><img src="assets/킨볼-심판-수신호.png" alt="경기 시작, 경기 종료, 서비스 시작, 라인 아웃, 호명 파울 등 킨볼 심판 수신호 14가지 안내표"><figcaption>이미지를 누르면 크게 볼 수 있습니다.</figcaption></figure>
+        <div class="signal-quick-grid"><div class="card"><b>경기 진행</b><span>① 경기 시작 · ② 경기 종료 · ③ 서비스 시작 · ⑨ 타임아웃 · ⑩ 리플레이</span></div><div class="card"><b>공격 파울</b><span>⑤ 호명 파울 · ⑥ 짧게 치기 · ⑫ 하향타 · ⑭ 트래핑</span></div><div class="card"><b>수비·기타</b><span>④ 라인 아웃 · ⑦ 드랍 더 볼 · ⑧ 메이저 경고 · ⑪ 컨택 미스 · ⑬ 시간 초과</span></div></div>
+      </section>
+
+      <section id="settings" class="view">
+        <div class="section-head"><div><p>온라인과 기기에 이중 저장</p><h2>데이터 관리</h2></div></div><div class="settings-grid"><div class="card setting cloud-setting"><span>☁</span><div><h3>온라인 수업 데이터 연결</h3><p>교사 ID와 PIN으로 모든 명단·경기·개인 기록을 여러 기기에서 불러옵니다.</p><small id="cloudDetail">아직 연결되지 않았습니다.</small></div><button class="btn primary teacher-only" id="cloudConnect">온라인 연결</button></div><div class="card setting"><span>↓</span><div><h3>전체 데이터 백업</h3><p>8개 반의 명단과 모든 경기 기록을 JSON 파일로 저장합니다.</p></div><button class="btn primary" id="exportData">백업 받기</button></div><div class="card setting"><span>↑</span><div><h3>백업 데이터 가져오기</h3><p>이전에 저장한 파일을 불러와 수업 기록을 복원합니다.</p></div><label class="btn secondary file-btn teacher-only">파일 선택<input type="file" id="importData" accept=".json"></label></div><div class="card setting"><span>▣</span><div><h3>순위표 인쇄</h3><p>현재 반의 순위표와 경기 결과를 교실 게시용으로 출력합니다.</p></div><button class="btn secondary" id="printSettings">인쇄하기</button></div></div>
+      </section>
+
+    </main>
+  </div>
+
+  <div id="meetScoreOverlay" class="meet-score-overlay" aria-hidden="true">
+    <div class="meet-score-top"><div><span class="live-dot"></span><b>학급대항전 스마트 점수판</b><small id="meetScoreMatchLabel"></small></div><div class="meet-timer" id="meetTimer">10:00</div><div class="meet-top-actions"><button class="btn light" id="meetTimerToggle">시작</button><button class="btn ghost" id="meetTimerReset">초기화</button><button class="icon-btn meet-close" id="meetScoreClose" aria-label="점수판 닫기">×</button></div></div>
+    <div class="meet-score-body"><div class="meet-score-grid" id="meetScoreGrid"></div><div class="meet-score-footer"><label>경기 선택<select id="meetScoreSelect"></select></label><p>파울 팀을 누르면 나머지 두 반에 1점씩 자동으로 올라갑니다.</p><button class="btn danger" id="meetScoreEnd">경기 종료 및 결과 반영</button></div></div>
+  </div>
+
+  <dialog id="modal"><form method="dialog" id="modalForm"><div class="modal-head"><h3 id="modalTitle"></h3><button value="cancel" class="icon-btn">×</button></div><div id="modalBody"></div><div class="modal-actions"><button value="cancel" class="btn secondary">취소</button><button value="default" class="btn primary" id="modalSave">저장</button></div></form></dialog>
+  <div id="toast"></div>
+  <script src="app.js?v=20260812-4"></script>
+</body>
+</html>
