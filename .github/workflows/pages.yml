@@ -27,6 +27,7 @@ jobs:
           mkdir site
           cp index.html app.js styles.css .nojekyll site/
           cp -R assets site/assets
+          cp -R kinball-scoreboard site/kinball-scoreboard
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -34,4 +35,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-

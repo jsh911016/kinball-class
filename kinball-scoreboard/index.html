@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1321">
+  <title>킨볼 스마트 점수판</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="title"><span class="ball">K</span><div><h1>킨볼 스마트 점수판</h1><p>파울 팀을 누르면 나머지 두 팀이 1점씩 올라갑니다.</p></div></div>
+      <div class="timer-wrap"><button id="minusMinute" aria-label="1분 줄이기">−1분</button><strong id="timer">10:00</strong><button id="plusMinute" aria-label="1분 늘리기">+1분</button><button class="primary" id="timerToggle">시작</button><button id="timerReset">초기화</button></div>
+    </header>
+
+    <section class="teams" id="teams" aria-label="팀별 점수"></section>
+
+    <footer>
+      <div class="quick-timers">
+        <button data-countdown="5"><span>5초</span> 히팅</button>
+        <button data-countdown="10"><span>10초</span> 세팅</button>
+        <strong id="ruleTimer" aria-live="polite">준비</strong>
+      </div>
+      <div class="actions">
+        <button id="soundToggle" aria-pressed="true">🔊 소리 켬</button>
+        <button id="undo">↶ 되돌리기</button>
+        <button id="fullscreen">⛶ 전체화면</button>
+        <button class="danger" id="resetScores">점수 초기화</button>
+      </div>
+    </footer>
+  </main>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <div id="timeUp" class="time-up" role="alertdialog" aria-modal="true" aria-labelledby="timeUpTitle" hidden>
+    <div><span>⏱</span><strong id="timeUpTitle">경기 종료</strong><p>설정한 경기 시간이 끝났습니다.</p><button id="closeTimeUp">확인</button></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
