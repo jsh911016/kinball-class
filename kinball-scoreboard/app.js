@@ -1,6 +1,7 @@
 const TEAM_COLORS=['pink','black','gray'];
 const defaultState={scores:[0,0,0],names:['핑크 팀','블랙 팀','그레이 팀'],seconds:600,sound:true,timerRunning:false,timerEndAt:null};
 let state=load(),history=[],timerId=null,ruleTimerId=null,wakeLock=null;
+let installPrompt=null;
 const $=selector=>document.querySelector(selector);
 
 function load(){try{return {...defaultState,...JSON.parse(localStorage.getItem('kinball-simple-scoreboard')||'{}')}}catch{return {...defaultState}}}
@@ -39,7 +40,11 @@ $('#undo').onclick=()=>{const previous=history.pop();if(!previous)return toast('
 $('#resetScores').onclick=()=>{if(!confirm('세 팀의 점수를 모두 0점으로 초기화할까요?'))return;remember();state.scores=[0,0,0];save();render()};
 $('#fullscreen').onclick=async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch{toast('전체화면을 사용할 수 없어요')}};
 $('#closeTimeUp').onclick=()=>{$('#timeUp').hidden=true};
+window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();installPrompt=event;$('#installApp').hidden=false});
+$('#installApp').onclick=async()=>{if(!installPrompt)return;installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('#installApp').hidden=true};
+window.addEventListener('appinstalled',()=>{installPrompt=null;$('#installApp').hidden=true;toast('킨볼 점수판이 설치됐어요')});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&state.timerRunning){syncTimer();requestWakeLock()}});
 document.querySelectorAll('[data-countdown]').forEach(button=>button.onclick=()=>startRuleTimer(+button.dataset.countdown));
 if(state.timerRunning&&state.timerEndAt){syncTimer();if(state.seconds>0){timerId=setInterval(syncTimer,250);requestWakeLock()}}
 render();
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
