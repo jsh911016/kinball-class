@@ -4,7 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d1321">
+  <meta name="description" content="수업용 3팀 킨볼 스마트 점수판">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="킨볼 점수판">
   <title>킨볼 스마트 점수판</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -23,6 +31,7 @@
         <strong id="ruleTimer" aria-live="polite">준비</strong>
       </div>
       <div class="actions">
+        <button id="installApp" hidden>⬇ 앱 설치</button>
         <button id="soundToggle" aria-pressed="true">🔊 소리 켬</button>
         <button id="undo">↶ 되돌리기</button>
         <button id="fullscreen">⛶ 전체화면</button>
