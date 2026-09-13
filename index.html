@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#101828" />
   <title>킨볼 클래스</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260913-1" />
 </head>
 <body>
   <div class="app-shell">
@@ -47,6 +47,7 @@
         <div class="progress-strip card"><strong id="progressBadge">1사이클 1경기 예정</strong><span id="nextMatchGuide"></span><div><button class="btn secondary" id="largeMode">큰 글씨</button><button class="btn secondary" id="fullscreenMode">전체화면</button></div></div>
         <div class="score-head"><div><span class="live-dot"></span> 실시간 경기 <strong id="matchLabel">1경기</strong></div><div class="timer" id="timer">10:00</div><div class="timer-actions"><button class="btn primary" id="timerToggle">시작</button><button class="btn secondary" id="timerReset">초기화</button></div></div>
         <div class="rule-timers card"><div><b>5초 히팅</b><strong id="fiveTimer">05</strong><button data-rule-timer="5">시작</button></div><div><b>10초 세팅</b><strong id="tenTimer">10</strong><button data-rule-timer="10">시작</button></div><label>효과음 <input id="volumeControl" type="range" min="0" max="100" value="60"><span id="volumeLabel">60%</span></label><label>동점 처리 <select id="tieSetting"><option value="shared">공동 승점</option><option value="score">득점 우선</option><option value="replay">재경기 표시</option></select></label><button class="btn secondary" id="undoScore">↶ 점수 되돌리기</button></div>
+        <div class="rule-countdown-display" id="ruleCountdownDisplay" aria-live="assertive" hidden><span id="ruleCountdownLabel">히팅 제한 시간</span><strong id="ruleCountdownNumber">5</strong></div>
         <div class="score-grid" id="scoreGrid"></div>
         <div class="card lineup-guide"><div><span class="kicker">PLAYER ROTATION</span><h3>출전 학생 자동 안내</h3></div><div id="lineupGuide"></div></div>
         <div class="score-controls card"><div><h3>현재 경기 운영</h3><p id="matchOperationText">경기 시작을 누르면 타이머와 경기 상태가 함께 시작됩니다.</p></div><label>경기 선택<select id="matchSelect"></select></label><button class="btn primary" id="startMatch">경기 시작</button><button class="btn danger" id="endMatch">경기 종료·저장</button><button class="btn primary" id="nextMatch">다음 경기로 이동</button></div>
@@ -197,6 +198,6 @@
 
   <dialog id="modal"><form method="dialog" id="modalForm"><div class="modal-head"><h3 id="modalTitle"></h3><button value="cancel" class="icon-btn">×</button></div><div id="modalBody"></div><div class="modal-actions"><button value="cancel" class="btn secondary">취소</button><button value="default" class="btn primary" id="modalSave">저장</button></div></form></dialog>
   <div id="toast"></div>
-  <script src="app.js?v=20260812-4"></script>
+  <script src="app.js?v=20260913-1"></script>
 </body>
 </html>
