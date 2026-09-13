@@ -1,4 +1,4 @@
-const CACHE_NAME='kinball-scoreboard-v1';
+const CACHE_NAME='kinball-scoreboard-v2';
 const APP_ASSETS=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
 
 self.addEventListener('install',event=>{

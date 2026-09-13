@@ -29,13 +29,16 @@ function startTimer(){if(state.seconds<=0)state.seconds=600;state.timerRunning=t
 function pauseTimer(){syncTimer();state.timerRunning=false;state.timerEndAt=null;clearInterval(timerId);timerId=null;save();renderTimer();releaseWakeLock()}
 function toggleTimer(){state.timerRunning?pauseTimer():startTimer()}
 function finishTimer(){clearInterval(timerId);timerId=null;state.seconds=0;state.timerRunning=false;state.timerEndAt=null;save();renderTimer();releaseWakeLock();beep(900,.9);$('#timeUp').hidden=false;$('#closeTimeUp').focus()}
-function startRuleTimer(total){clearInterval(ruleTimerId);let left=total;$('#ruleTimer').textContent=left;beep();ruleTimerId=setInterval(()=>{left--;$('#ruleTimer').textContent=left||'종료';if(left<=0){clearInterval(ruleTimerId);beep(900,.5)}else beep(430,.04)},1000)}
+function speakNumber(number){if(!state.sound||!('speechSynthesis'in window))return;const words=['zero','one','two','three','four','five','six','seven','eight','nine','ten'],voice=new SpeechSynthesisUtterance(words[number]);voice.lang='en-US';voice.rate=1.35;voice.pitch=1;window.speechSynthesis.cancel();window.speechSynthesis.speak(voice)}
+function showRuleCount(left,total){$('#ruleTimer').textContent=left;$('#countdownNumber').textContent=left;$('#countdownLabel').textContent=total===5?'히팅 제한 시간':'세팅 제한 시간';$('#countdownBanner').hidden=false;document.body.classList.add('countdown-active')}
+function finishRuleTimer(){clearInterval(ruleTimerId);ruleTimerId=null;$('#ruleTimer').textContent='시작';$('#countdownNumber').textContent='GO!';beep(900,.45);setTimeout(()=>{$('#countdownBanner').hidden=true;document.body.classList.remove('countdown-active')},650)}
+function startRuleTimer(total){clearInterval(ruleTimerId);if('speechSynthesis'in window)window.speechSynthesis.cancel();let left=total;showRuleCount(left,total);speakNumber(left);ruleTimerId=setInterval(()=>{left--;if(left<=0)return finishRuleTimer();showRuleCount(left,total);speakNumber(left)},1000)}
 
 $('#timerToggle').onclick=toggleTimer;
 $('#timerReset').onclick=()=>{pauseTimer();state.seconds=600;save();renderTimer()};
 $('#minusMinute').onclick=()=>{state.seconds=Math.max(0,state.seconds-60);if(state.timerRunning)state.timerEndAt=Date.now()+state.seconds*1000;save();renderTimer()};
 $('#plusMinute').onclick=()=>{state.seconds+=60;if(state.timerRunning)state.timerEndAt=Date.now()+state.seconds*1000;save();renderTimer()};
-$('#soundToggle').onclick=()=>{state.sound=!state.sound;save();render()};
+$('#soundToggle').onclick=()=>{state.sound=!state.sound;if(!state.sound&&'speechSynthesis'in window)window.speechSynthesis.cancel();save();render()};
 $('#undo').onclick=()=>{const previous=history.pop();if(!previous)return toast('되돌릴 기록이 없어요');state.scores=previous;save();render();toast('직전 점수로 되돌렸어요')};
 $('#resetScores').onclick=()=>{if(!confirm('세 팀의 점수를 모두 0점으로 초기화할까요?'))return;remember();state.scores=[0,0,0];save();render()};
 $('#fullscreen').onclick=async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch{toast('전체화면을 사용할 수 없어요')}};
