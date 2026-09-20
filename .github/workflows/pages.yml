@@ -28,6 +28,7 @@ jobs:
           cp index.html app.js styles.css .nojekyll site/
           cp -R assets site/assets
           cp -R kinball-scoreboard site/kinball-scoreboard
+          cp -R universal-scoreboard site/universal-scoreboard
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
