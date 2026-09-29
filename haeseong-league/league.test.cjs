@@ -24,3 +24,12 @@ const old=fresh();for(const sport of ['volley','shoe']){const games=old.sports[s
 assert.ok(valid(old));require('./league.js').reorder(old);
 for(const sport of ['volley','shoe']){assert.equal(old.sports[sport][0].a,2);assert.equal(old.sports[sport][1].a,0);assert.equal(old.sports[sport][1].x,11);assert.equal(old.sports[sport][1].done,true);}
 console.log('PASS: C-D first with previous scores and backup results preserved');
+const {recordDefaults,recordRows,recordValid,reorder}=require('./league.js');
+const record=recordDefaults();record.values=[100,100,50,0];
+assert.deepEqual(recordRows(record).map(r=>r.rank),[1,1,3,4]);
+assert.deepEqual(recordRows(record).map(r=>r.points),[0,0,0,0]);record.done=true;
+assert.deepEqual(recordRows(record).map(r=>r.points),[9,9,3,0]);record.direction='low';assert.equal(recordRows(record)[0].team,3);
+record.values[3]=null;assert.equal(recordValid(record),false);record.done=false;assert.equal(recordRows(record)[3].rank,null);assert.ok(recordValid(record));
+record.values[3]=0.25;assert.ok(recordValid(record));record.points[0]=-1;assert.equal(recordValid(record),false);
+const migrated=reorder(fresh());assert.ok(recordValid(migrated.shoeRecord));assert.ok(valid(JSON.parse(JSON.stringify(migrated))));migrated.shoeRecord.values=[1];assert.equal(valid(migrated),false);
+console.log('PASS: record ties, zero, decimals, missing values, direction, confirmation, migration and validation');
