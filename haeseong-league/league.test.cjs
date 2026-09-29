@@ -33,3 +33,4 @@ record.values[3]=null;assert.equal(recordValid(record),false);record.done=false;
 record.values[3]=0.25;assert.ok(recordValid(record));record.points[0]=-1;assert.equal(recordValid(record),false);
 const migrated=reorder(fresh());assert.ok(recordValid(migrated.shoeRecord));assert.ok(valid(JSON.parse(JSON.stringify(migrated))));migrated.shoeRecord.values=[1];assert.equal(valid(migrated),false);
 console.log('PASS: record ties, zero, decimals, missing values, direction, confirmation, migration and validation');
+const previous=reorder(fresh());previous.shoeRecord.unit='cm';previous.shoeRecord.direction='low';previous.shoeRecord.values=[10,20,30,40];previous.shoeRecord.done=true;reorder(previous);assert.equal(previous.shoeRecord.unit,'점');assert.equal(previous.shoeRecord.direction,'high');assert.equal(previous.shoeRecord.done,false);assert.deepEqual(previous.shoeRecord.values,[10,20,30,40]);assert.equal(recordRows(previous.shoeRecord)[0].team,3);
