@@ -30,6 +30,7 @@ jobs:
           cp -R kinball-scoreboard site/kinball-scoreboard
           cp -R universal-scoreboard site/universal-scoreboard
           mkdir site/haeseong-league
+          cp haeseong-league/finals.js site/haeseong-league/
           cp haeseong-league/index.html haeseong-league/app.js haeseong-league/league.js haeseong-league/record-ui.js haeseong-league/styles.css haeseong-league/navy.css site/haeseong-league/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
