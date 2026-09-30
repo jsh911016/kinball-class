@@ -39,3 +39,13 @@ const before=JSON.stringify(saved.sports);const upgraded=reorder(JSON.parse(JSON
 upgraded.shoeRecord.entries[0].push(50);upgraded.shoeRecord.values[0]+=50;assert.equal(upgraded.shoeRecord.values[0],200);assert.ok(valid(upgraded));
 upgraded.final={a:0,b:1,x:13,y:12,done:true};assert.ok(valid(upgraded));assert.deepEqual(reorder(JSON.parse(JSON.stringify(upgraded))),upgraded);upgraded.final.y=13;assert.equal(valid(upgraded),false);
 console.log('PASS: completed legacy results preserved, additive points and final backup roundtrip');
+const contest=reorder(fresh());for(const m of contest.sports.volley){m.x=m.a<m.b?11:0;m.y=m.a<m.b?0:11;m.done=true;}
+contest.shoeRecord.values=[5,100,500,1000];contest.shoeRecord.done=true;
+assert.deepEqual(require('./league.js').finalists(contest).eligible.map(r=>r.team),[0,1]);
+contest.final={a:0,b:1,x:9,y:11,done:true};
+assert.deepEqual(require('./league.js').volleyballResults(contest).map(r=>[r.team,r.finalRank,r.award]),[[1,1,50],[0,2,40],[2,3,30],[3,4,20]]);
+let combined=require('./league.js').combined(contest);assert.equal(combined[0].team,3);assert.equal(combined[0].points,1020);assert.ok(combined[0].ready);
+contest.shoeRecord.done=false;assert.ok(require('./league.js').finalEligible(contest));assert.equal(require('./league.js').combined(contest)[0].ready,false);
+contest.final.a=3;assert.equal(require('./league.js').finalEligible(contest),false);assert.ok(require('./league.js').volleyballResults(contest).every(r=>r.award===0));
+const tied=reorder(fresh());tied.sports.volley.forEach(m=>{m.done=true;m.x=0;m.y=0;});assert.equal(require('./league.js').finalists(tied).eligible.length,4);tied.final={a:1,b:3,x:11,y:0,done:true};assert.deepEqual(require('./league.js').volleyballResults(tied).map(r=>r.finalRank),[1,2,3,3]);
+console.log('PASS: volleyball-only seeding, final placement, 50/40/30/20 awards, raw shoe totals and overall champion');
