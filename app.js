@@ -2,7 +2,7 @@ const GROUPS=['A','B','C','D'];
 const MATCHES=[['A','B','C'],['A','B','D'],['A','C','D'],['B','C','D']];
 const COLORS=['pink','black','gray'];
 const COLOR_LABELS={pink:'핑크',black:'블랙',gray:'그레이'};
-const colorForMatch=(match,teamIndex)=>COLORS[(teamIndex+match.id-1)%COLORS.length];
+const colorForMatch=(match,teamIndex)=>COLORS[(teamIndex+match.id)%COLORS.length];
 const TITLES={dashboard:'오늘의 수업',scoreboard:'스마트 점수판',activityTimer:'활동 타이머',league:'조별 리그',tournament:'학급대항전',students:'학생 명단',introLesson:'킨볼 첫 수업',rules:'킨볼 규칙',signals:'심판 수신호',settings:'데이터 관리'};
 const makeMatches=()=>Array.from({length:4},(_,cycle)=>MATCHES.map((teams,round)=>({id:cycle*4+round+1,cycle:cycle+1,round:round+1,teams:[...teams],scores:[0,0,0],done:false}))).flat();
 const blankClass=()=>({students:[],matches:makeMatches()});
