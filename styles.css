@@ -31,6 +31,25 @@
 #scoreboard.large-score-mode .team-score{min-height:570px}
 @media(max-width:620px){#scoreboard .score-grid{gap:12px}#scoreboard .team-score{min-height:360px;padding:24px}#scoreboard .team-score h2{font-size:30px}#scoreboard .big-score{font-size:112px}#scoreboard .score-buttons button{padding:16px;font-size:18px}#scoreboard.large-score-mode .big-score{font-size:135px}#scoreboard.large-score-mode .team-score{min-height:400px}}
 
+/* 전체화면에서는 경기 운영에 필요한 핵심 점수판만 화면 가득 표시 */
+.scoreboard-fullscreen{overflow:hidden;background:var(--bg)}
+.scoreboard-fullscreen .app-shell{display:block;min-height:100vh}
+.scoreboard-fullscreen .sidebar,.scoreboard-fullscreen .topbar,.scoreboard-fullscreen .sync-warning{display:none!important}
+.scoreboard-fullscreen main{padding:10px 14px;height:100vh;overflow:hidden}
+.scoreboard-fullscreen #scoreboard{height:100%;display:grid;grid-template-rows:auto auto auto minmax(0,1fr);gap:8px}
+.scoreboard-fullscreen #scoreboard .progress-strip{margin:0;padding:9px 16px;min-height:58px}
+.scoreboard-fullscreen #scoreboard .score-head{margin:0;min-height:66px}
+.scoreboard-fullscreen #scoreboard .timer{font-size:54px}
+.scoreboard-fullscreen #scoreboard .rule-timers{margin:0;padding:8px 14px;min-height:58px}
+.scoreboard-fullscreen #scoreboard .score-grid{height:100%;min-height:0;gap:14px}
+.scoreboard-fullscreen #scoreboard .team-score{height:100%;min-height:0;padding:18px 26px;border-radius:20px}
+.scoreboard-fullscreen #scoreboard .team-score small{font-size:17px}
+.scoreboard-fullscreen #scoreboard .team-score h2{font-size:40px;margin:4px 0}
+.scoreboard-fullscreen #scoreboard .big-score{font-size:clamp(170px,25vh,260px);line-height:.95;margin:auto 0}
+.scoreboard-fullscreen #scoreboard .score-buttons button{padding:15px;font-size:21px}
+.scoreboard-fullscreen #scoreboard .score-controls,.scoreboard-fullscreen #scoreboard .score-history,.scoreboard-fullscreen #scoreboard .court-note{display:none}
+@media(max-width:760px){.scoreboard-fullscreen{overflow:auto}.scoreboard-fullscreen main{height:auto;min-height:100vh;overflow:visible}.scoreboard-fullscreen #scoreboard{display:block}.scoreboard-fullscreen #scoreboard .score-grid{height:auto}.scoreboard-fullscreen #scoreboard .team-score{min-height:360px;margin-bottom:10px}.scoreboard-fullscreen #scoreboard .big-score{font-size:130px}.scoreboard-fullscreen #scoreboard .rule-timers{display:grid}}
+
 .rule-countdown-display{min-height:116px;margin:0 0 16px;border-radius:18px;background:#101828;color:white;display:flex;align-items:center;justify-content:center;gap:28px;padding:8px 28px;box-shadow:0 12px 30px rgba(16,24,40,.18)}.rule-countdown-display[hidden]{display:none}.rule-countdown-display span{color:var(--lime);font-size:19px;font-weight:950}.rule-countdown-display strong{min-width:150px;text-align:center;font-size:88px;line-height:1;font-weight:1000;font-variant-numeric:tabular-nums;text-shadow:0 4px 0 rgba(0,0,0,.2)}
 @media(max-width:620px){.rule-countdown-display{min-height:88px;gap:16px;padding:6px 16px}.rule-countdown-display span{font-size:15px}.rule-countdown-display strong{min-width:90px;font-size:64px}}
 
