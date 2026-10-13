@@ -20,6 +20,17 @@
 .meet-team-score>div button:last-child{grid-column:1/-1}.score-buttons button:last-child{grid-column:1/-1}
 .teacher-lock-hint{background:#fff0ce;color:#7a4b00;border:1px solid #f5c85b;border-radius:10px;padding:11px 15px;margin-bottom:14px;text-align:center;font-size:13px}.teacher-locked .teacher-only,.teacher-locked #startMatch,.teacher-locked #endMatch,.teacher-locked #nextMatch,.teacher-locked #undoFoul{position:relative;filter:grayscale(.2)}.teacher-locked .teacher-only::after{content:' 🔒'}.cloud-status{cursor:help}.cloud-time{font-size:10px;color:var(--muted)}
 
+/* 체육관에서도 점수가 잘 보이도록 스마트 점수판을 크게 표시 */
+#scoreboard .score-grid{gap:20px}
+#scoreboard .team-score{min-height:500px;padding:34px 32px;border-radius:22px}
+#scoreboard .team-score small{font-size:16px;font-weight:800}
+#scoreboard .team-score h2{font-size:36px;font-weight:900;margin-top:10px}
+#scoreboard .big-score{font-size:168px;font-weight:900;line-height:1;text-shadow:0 3px 0 rgba(0,0,0,.12)}
+#scoreboard .score-buttons button{padding:19px;font-size:20px;font-weight:900}
+#scoreboard.large-score-mode .big-score{font-size:210px}
+#scoreboard.large-score-mode .team-score{min-height:570px}
+@media(max-width:620px){#scoreboard .score-grid{gap:12px}#scoreboard .team-score{min-height:360px;padding:24px}#scoreboard .team-score h2{font-size:30px}#scoreboard .big-score{font-size:112px}#scoreboard .score-buttons button{padding:16px;font-size:18px}#scoreboard.large-score-mode .big-score{font-size:135px}#scoreboard.large-score-mode .team-score{min-height:400px}}
+
 .rule-countdown-display{min-height:116px;margin:0 0 16px;border-radius:18px;background:#101828;color:white;display:flex;align-items:center;justify-content:center;gap:28px;padding:8px 28px;box-shadow:0 12px 30px rgba(16,24,40,.18)}.rule-countdown-display[hidden]{display:none}.rule-countdown-display span{color:var(--lime);font-size:19px;font-weight:950}.rule-countdown-display strong{min-width:150px;text-align:center;font-size:88px;line-height:1;font-weight:1000;font-variant-numeric:tabular-nums;text-shadow:0 4px 0 rgba(0,0,0,.2)}
 @media(max-width:620px){.rule-countdown-display{min-height:88px;gap:16px;padding:6px 16px}.rule-countdown-display span{font-size:15px}.rule-countdown-display strong{min-width:90px;font-size:64px}}
 
