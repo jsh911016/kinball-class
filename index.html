@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#101828" />
   <title>킨볼 클래스</title>
-  <link rel="stylesheet" href="styles.css?v=20261013-2" />
+  <link rel="stylesheet" href="styles.css?v=20261013-3" />
 </head>
 <body>
   <div class="app-shell">
@@ -49,7 +49,7 @@
         <div class="rule-timers card"><div><b>5초 히팅</b><strong id="fiveTimer">05</strong><button data-rule-timer="5">시작</button></div><div><b>10초 세팅</b><strong id="tenTimer">10</strong><button data-rule-timer="10">시작</button></div><label>효과음 <input id="volumeControl" type="range" min="0" max="100" value="60"><span id="volumeLabel">60%</span></label><label>동점 처리 <select id="tieSetting"><option value="shared">공동 승점</option><option value="score">득점 우선</option><option value="replay">재경기 표시</option></select></label><button class="btn secondary" id="undoScore">↶ 점수 되돌리기</button></div>
         <div class="rule-countdown-display" id="ruleCountdownDisplay" aria-live="assertive" hidden><span id="ruleCountdownLabel">히팅 제한 시간</span><strong id="ruleCountdownNumber">5</strong></div>
         <div class="score-grid" id="scoreGrid"></div>
-        <div class="score-controls card"><div><h3>현재 경기 운영</h3><p id="matchOperationText">경기 시작을 누르면 타이머와 경기 상태가 함께 시작됩니다.</p></div><label>경기 선택<select id="matchSelect"></select></label><button class="btn primary" id="startMatch">경기 시작</button><button class="btn danger" id="endMatch">경기 종료·저장</button><button class="btn primary" id="nextMatch">다음 경기로 이동</button></div>
+        <div class="score-controls card"><div><h3>현재 경기 운영</h3><p id="matchOperationText">경기 시작 후 타이머의 시작 버튼을 눌러 시간을 진행합니다.</p></div><label>경기 선택<select id="matchSelect"></select></label><button class="btn primary" id="startMatch">경기 시작</button><button class="btn danger" id="endMatch">경기 종료·저장</button><button class="btn primary" id="nextMatch">다음 경기로 이동</button></div>
         <div class="card score-history"><div class="panel-head"><div><span class="kicker">SCORE LOG</span><h3>점수 변경 기록</h3></div><button class="btn secondary" id="undoFoul">직전 파울 취소</button></div><div id="scoreHistoryList"><p>아직 점수 변경 기록이 없습니다.</p></div></div>
         <div class="court-note">심판 안내: 공격 팀은 반드시 “옴니킨”과 수비 팀 색상을 크게 외쳐주세요.</div>
       </section>
@@ -197,6 +197,7 @@
 
   <dialog id="modal"><form method="dialog" id="modalForm"><div class="modal-head"><h3 id="modalTitle"></h3><button value="cancel" class="icon-btn">×</button></div><div id="modalBody"></div><div class="modal-actions"><button value="cancel" class="btn secondary">취소</button><button value="default" class="btn primary" id="modalSave">저장</button></div></form></dialog>
   <div id="toast"></div>
-  <script src="app.js?v=20261013-2"></script>
+  <div class="match-end-display" id="matchEndDisplay" hidden onclick="this.hidden=true"><strong>경기 종료</strong><span>화면을 누르면 닫힙니다</span></div>
+  <script src="app.js?v=20261013-3"></script>
 </body>
 </html>
