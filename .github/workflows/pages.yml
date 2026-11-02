@@ -25,7 +25,7 @@ jobs:
       - name: Prepare public site only
         run: |
           mkdir site
-          cp index.html app.js styles.css .nojekyll site/
+          cp index.html app.js styles.css kinball-safety.html .nojekyll site/
           cp -R assets site/assets
           cp -R kinball-scoreboard site/kinball-scoreboard
           cp -R universal-scoreboard site/universal-scoreboard
