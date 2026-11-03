@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#101828" />
   <title>킨볼 클래스</title>
-  <link rel="stylesheet" href="styles.css?v=20261103-2" />
+  <link rel="stylesheet" href="styles.css?v=20261103-3" />
 </head>
 <body>
   <div class="app-shell">
@@ -160,27 +160,21 @@
       <section id="activityTimer" class="view">
         <div class="activity-timer-card card">
           <div class="activity-timer-head">
-            <div><span class="activity-badge">READY, SET, GO!</span><h2>우리 반 활동 타이머</h2><p>시간을 더하고 토끼와 함께 신나게 달려요!</p></div>
-            <div class="activity-status" id="activityStatus"><i></i><span>준비됐어요</span></div>
+            <div><span class="activity-badge">CLASS TIMER</span><h2>활동 타이머</h2><p>활동을 선택하고 바로 시작하세요.</p></div>
+            <div class="activity-status" id="activityStatus"><i></i><span>시작 전</span></div>
           </div>
-          <div class="activity-clock" id="activityClock" aria-live="polite">05:00</div>
-          <div class="activity-track" aria-hidden="true">
-            <div class="track-sky"><span class="cloud cloud-one">☁</span><span class="cloud cloud-two">☁</span></div>
-            <div class="finish-line"><b>FINISH</b></div>
-            <div class="runner" id="activityRunner"><img src="assets/running-rabbit.png" alt="달리는 귀여운 토끼 캐릭터"></div>
-            <div class="track-lines"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="activity-presets" aria-label="활동 선택">
+            <button type="button" class="active" data-activity-preset="60" data-activity-label="작전회의"><span>01</span><b>작전회의</b><small>1분</small></button>
+            <button type="button" data-activity-preset="180" data-activity-label="오늘의 우리 팀 피드백"><span>02</span><b>오늘의 우리 팀 피드백</b><small>3분</small></button>
           </div>
+          <p class="activity-current" id="activityCurrent">작전회의</p>
+          <div class="activity-clock" id="activityClock" aria-live="polite">01:00</div>
           <div class="activity-progress"><div id="activityProgress"></div></div>
-          <div class="activity-add-buttons" aria-label="시간 추가">
-            <button type="button" data-add-time="30"><small>조금 더</small><b>+30초</b></button>
-            <button type="button" data-add-time="60"><small>한 번 더</small><b>+1분</b></button>
-            <button type="button" data-add-time="300"><small>넉넉하게</small><b>+5분</b></button>
-          </div>
           <div class="activity-main-actions">
             <button class="activity-reset" id="activityReset" type="button">↻ 초기화</button>
             <button class="activity-start" id="activityToggle" type="button"><span>▶</span> 시작하기</button>
           </div>
-          <p class="activity-tip">💡 시간이 끝나면 알림음과 함께 토끼가 결승선에 도착해요.</p>
+          <p class="activity-tip">시간이 끝나면 알림음으로 알려드립니다.</p>
         </div>
       </section>
 
@@ -199,6 +193,6 @@
   <dialog id="modal"><form method="dialog" id="modalForm"><div class="modal-head"><h3 id="modalTitle"></h3><button value="cancel" class="icon-btn">×</button></div><div id="modalBody"></div><div class="modal-actions"><button value="cancel" class="btn secondary">취소</button><button value="default" class="btn primary" id="modalSave">저장</button></div></form></dialog>
   <div id="toast"></div>
   <div class="match-end-display" id="matchEndDisplay" hidden onclick="this.hidden=true"><strong>경기 종료</strong><span>화면을 누르면 닫힙니다</span></div>
-  <script src="app.js?v=20261018-1"></script>
+  <script src="app.js?v=20261103-1"></script>
 </body>
 </html>
