@@ -213,7 +213,7 @@ body.idle{cursor:none}
   <div>
     <button id="go">▶ 재생 시작</button>
     <label><input type="checkbox" id="voiceChk" checked> 음성 안내 함께 듣기</label>
-    <p>Space 재생/정지 · ← → 이동 · F 전체화면</p><p>목소리: 중학생 여학생 · 남학생 (남학생 목소리는 Edge 브라우저에서 가장 자연스러워요)</p>
+    <p>Space 재생/정지 · ← → 이동 · F 전체화면</p><p>목소리: 또렷하고 차분한 한국어 아나운서 안내</p>
   </div>
 </div>
 
@@ -301,24 +301,16 @@ function render(s){
 let idx=0, elapsed=0, dur=0, playing=false, voice=true, loop=false, speechDone=true, last=0;
 const synth = window.speechSynthesis;
 
-/* ── 목소리: 중학생 여학생(g) / 남학생(b) ──
-   브라우저에 설치된 한국어 음성 중 여성·남성 음성을 골라
-   높낮이(pitch)와 속도를 조절해 청소년 목소리처럼 들리게 합니다.
-   (Edge 브라우저에는 남성 한국어 음성이 있어 남학생 목소리가 더 자연스럽습니다) */
-const SPEAKER = ['g','b','g','b','g','b','g','g','g','g','b','b','both'];
+/* 기기에 설치된 한국어 음성 가운데 자연스러운 여성 음성을 우선 선택하고,
+   높낮이와 속도를 차분한 아나운서 톤으로 통일합니다. */
+const SPEAKER = Array(S.length).fill('announcer');
 const MALE = /InJoon|Hyunsu|BongJin|GookMin|Jinwoo|Minsu|male|남/i;
 function koVoices(){ return synth ? synth.getVoices().filter(v=>v.lang && v.lang.toLowerCase().startsWith('ko')) : []; }
-function voiceFor(who){
+function voiceFor(){
   const ko = koVoices();
-  const male = ko.filter(v=>MALE.test(v.name));
   const female = ko.filter(v=>!MALE.test(v.name));
-  const prefer = (list)=> list.find(v=>/Natural|Online/i.test(v.name)) || list[0];
-  if(who==='b'){
-    const m = prefer(male);
-    if(m) return {v:m, pitch:1.25, rate:1.05};           // 남성 음성을 약간 높여 변성기 남학생 느낌
-    return {v:prefer(female)||ko[0], pitch:0.7, rate:1.0}; // 남성 음성이 없으면 여성 음성을 낮춰서
-  }
-  return {v:prefer(female)||ko[0], pitch:1.35, rate:1.08}; // 여성 음성을 높고 밝게
+  const preferred = female.find(v=>/SunHi|Sora|Yuna|Heami|Jimin|Natural|Online/i.test(v.name)) || female[0] || ko[0];
+  return {v:preferred, pitch:1.0, rate:0.94};
 }
 let speakTok=0;
 function speak(text, who){
@@ -337,9 +329,7 @@ function speak(text, who){
   },350);
 }
 function sayOf(i){
-  const s=S[i], who=SPEAKER[i]||'g';
-  if(who==='both') return [[ 'b','모두가 안전하고 즐거운 킨볼 리그전!' ],[ 'g','옴니킨!' ]];
-  return s.say;
+  return S[i].say;
 }
 
 function go(i){
