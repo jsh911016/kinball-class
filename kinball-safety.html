@@ -306,27 +306,32 @@ const synth = window.speechSynthesis;
 const SPEAKER = Array(S.length).fill('announcer');
 const MALE = /InJoon|Hyunsu|BongJin|GookMin|Jinwoo|Minsu|male|남/i;
 function koVoices(){ return synth ? synth.getVoices().filter(v=>v.lang && v.lang.toLowerCase().startsWith('ko')) : []; }
-function voiceFor(){
-  const ko = koVoices();
+function voiceFor(ko=koVoices()){
   const female = ko.filter(v=>!MALE.test(v.name));
-  const preferred = female.find(v=>/SunHi|Sora|Yuna|Heami|Jimin|Natural|Online/i.test(v.name)) || female[0] || ko[0];
+  const preferred = female.find(v=>/Yuna|유나|SunHi|선히|Sora|소라|Heami|혜미|Jimin|지민/i.test(v.name))
+    || female.find(v=>/Natural|Online|Premium|Enhanced/i.test(v.name))
+    || female[0] || ko[0];
   return {v:preferred, pitch:1.0, rate:0.94};
 }
 let speakTok=0;
+function speakSegments(tok,segs,tries=0){
+  if(tok!==speakTok || !voice || !synth) return;
+  const ko=koVoices();
+  // iPad Safari는 첫 터치 뒤에 음성 목록을 늦게 제공하므로 잠시 기다립니다.
+  if(!ko.length && tries<15){setTimeout(()=>speakSegments(tok,segs,tries+1),120);return;}
+  segs.forEach(([w,t],i)=>{
+    const u=new SpeechSynthesisUtterance(t); u.lang='ko-KR';
+    const c=voiceFor(ko); if(c.v) u.voice=c.v; u.pitch=c.pitch; u.rate=c.rate;
+    if(i===segs.length-1) u.onend=u.onerror=()=>{ if(tok===speakTok) speechDone=true; };
+    synth.speak(u);
+  });
+}
 function speak(text, who){
   if(!voice || !synth) {speechDone=true;return;}
   const tok=++speakTok;
   synth.cancel(); speechDone=false;
   const segs = Array.isArray(text) ? text : [[who||'g', text]];
-  setTimeout(()=>{
-    if(tok!==speakTok) return;
-    segs.forEach(([w,t],i)=>{
-      const u=new SpeechSynthesisUtterance(t); u.lang='ko-KR';
-      const c=voiceFor(w); if(c.v) u.voice=c.v; u.pitch=c.pitch; u.rate=c.rate;
-      if(i===segs.length-1) u.onend=u.onerror=()=>{ if(tok===speakTok) speechDone=true; };
-      synth.speak(u);
-    });
-  },350);
+  setTimeout(()=>speakSegments(tok,segs),350);
 }
 function sayOf(i){
   return S[i].say;
@@ -391,7 +396,7 @@ addEventListener('keydown',e=>{
   if(e.key==='f'||e.key==='F')toggleFull();
 });
 let idleT; addEventListener('mousemove',()=>{document.body.classList.remove('idle');clearTimeout(idleT);idleT=setTimeout(()=>document.body.classList.add('idle'),2500)});
-if(synth) synth.getVoices();
+if(synth){ synth.getVoices(); synth.onvoiceschanged=()=>synth.getVoices(); }
 scene.innerHTML=render(S[0]); dur=S[0].dur;
 requestAnimationFrame(tick);
 </script>
