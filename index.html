@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#101828" />
   <title>킨볼 클래스</title>
-  <link rel="stylesheet" href="styles.css?v=20261103-3" />
+  <link rel="stylesheet" href="styles.css?v=20261103-4" />
 </head>
 <body>
   <div class="app-shell">
@@ -172,6 +172,7 @@
           <div class="activity-progress"><div id="activityProgress"></div></div>
           <div class="activity-main-actions">
             <button class="activity-reset" id="activityReset" type="button">↻ 초기화</button>
+            <button class="activity-add-minute" id="activityAddMinute" type="button">＋ 1분</button>
             <button class="activity-start" id="activityToggle" type="button"><span>▶</span> 시작하기</button>
           </div>
           <p class="activity-tip">시간이 끝나면 알림음으로 알려드립니다.</p>
@@ -193,6 +194,6 @@
   <dialog id="modal"><form method="dialog" id="modalForm"><div class="modal-head"><h3 id="modalTitle"></h3><button value="cancel" class="icon-btn">×</button></div><div id="modalBody"></div><div class="modal-actions"><button value="cancel" class="btn secondary">취소</button><button value="default" class="btn primary" id="modalSave">저장</button></div></form></dialog>
   <div id="toast"></div>
   <div class="match-end-display" id="matchEndDisplay" hidden onclick="this.hidden=true"><strong>경기 종료</strong><span>화면을 누르면 닫힙니다</span></div>
-  <script src="app.js?v=20261103-1"></script>
+  <script src="app.js?v=20261103-2"></script>
 </body>
 </html>
