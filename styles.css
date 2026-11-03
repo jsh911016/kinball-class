@@ -4,6 +4,35 @@
 @media(max-width:620px){main{padding:0 12px 30px}.topbar h1{font-size:19px}.top-actions .secondary{display:none}.hero{min-height:250px}.hero h2{font-size:26px}.hero-ball{display:none}.stats-grid{gap:8px}.stat{padding:16px}.score-head{flex-wrap:wrap}.timer{font-size:38px}.score-grid{grid-template-columns:1fr}.team-score{min-height:280px}.big-score{font-size:80px}.score-controls{align-items:stretch;flex-direction:column}.score-controls>div{margin:0}.rules-grid{grid-template-columns:1fr}.setting{grid-template-columns:48px 1fr}.setting .btn{grid-column:1/-1}.top-actions{gap:4px}}
 @media print{.sidebar,.topbar,.btn,.group-tabs,.section-head p{display:none!important}.app-shell{display:block}main{padding:0;background:white}.view{display:none!important}#league.view{display:block!important}.card{box-shadow:none}.schedule-grid{grid-template-columns:repeat(2,1fr)}body{background:white}}
 .safety-nav{display:block;text-decoration:none;color:#d7ff43}
+/* 조별 리그는 체육관 화면에서도 읽기 쉽도록 모든 정보를 약 3배로 확대 */
+#league{font-size:48px}
+#league .section-head{align-items:center;flex-wrap:wrap;gap:24px;margin:30px 0 38px}
+#league .section-head p{font-size:33px}
+#league .section-head h2{font-size:60px}
+#league .section-head .btn{font-size:42px;padding:24px 32px;border-radius:18px}
+#league .table-card{border-radius:24px}
+#league table{min-width:2100px}
+#league th{font-size:36px;padding:30px 24px}
+#league td{font-size:42px;padding:34px 24px}
+#league .rank{font-size:54px}
+#league .team-chip{width:96px;height:96px;border-radius:20px;font-size:48px}
+#league .cycle-total{font-size:36px;padding:18px 28px}
+#league .schedule-grid{grid-template-columns:1fr;gap:30px}
+#league .cycle-divider{gap:24px;margin-top:32px;padding:26px 8px 18px;border-bottom-width:5px}
+#league .cycle-divider span{font-size:51px}
+#league .cycle-divider small{font-size:36px}
+#league .game-card{padding:42px;border-radius:26px}
+#league .game-card-head{font-size:36px;gap:20px}
+#league .game-card-head b{font-size:48px}
+#league .game-card-head b em{font-size:33px;margin-left:14px}
+#league .game-teams{margin:42px 0;gap:20px}
+#league .game-teams b{font-size:60px}
+#league .game-teams i{font-size:54px}
+#league .game-teams input{width:168px;font-size:60px;padding:24px;border-radius:18px}
+#league .game-card .btn{font-size:48px;padding:30px;border-radius:18px}
+#league .match-duty{font-size:33px;padding:24px;margin-top:26px;border-radius:16px}
+#league .match-duty b{margin-left:18px}
+@media(max-width:900px){#league .section-head h2{font-size:54px}#league .section-head p{font-size:30px}#league table{min-width:1950px}#league .game-teams{flex-wrap:wrap}}
 .cycle-total{font-size:12px;font-weight:800;color:var(--green);background:#edf7f2;padding:7px 11px;border-radius:20px}.cycle-divider{grid-column:1/-1;display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px 2px 2px;border-bottom:2px solid #183d31}.cycle-divider span{font-size:17px;font-weight:900;color:#183d31}.cycle-divider small{color:var(--muted)}.game-card-head b em{font-style:normal;font-weight:500;color:var(--muted);margin-left:5px}
 .hero{position:relative;isolation:isolate;min-height:340px;padding:42px 56px;background:#183d31}.hero-scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-2}.hero-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(10,31,24,.96) 0%,rgba(10,31,24,.88) 33%,rgba(10,31,24,.32) 58%,rgba(10,31,24,.02) 100%)}.hero-copy{position:relative;max-width:520px;text-shadow:0 2px 12px rgba(0,0,0,.25)}@media(max-width:900px){.hero{min-height:320px}.hero-scene{object-position:62% center}.hero-shade{background:linear-gradient(90deg,rgba(10,31,24,.96),rgba(10,31,24,.74) 58%,rgba(10,31,24,.15))}}@media(max-width:620px){.hero{min-height:300px;padding:28px 24px}.hero-scene{object-position:68% center}.hero-shade{background:linear-gradient(90deg,rgba(10,31,24,.96),rgba(10,31,24,.84) 72%,rgba(10,31,24,.34))}}
 .meet-guide{display:grid;grid-template-columns:100px 100px 100px 1fr;align-items:center;gap:10px;padding:18px 22px}.meet-guide>div{text-align:center;border-right:1px solid var(--line)}.meet-guide strong,.meet-guide span{display:block}.meet-guide strong{font-size:25px;color:var(--green)}.meet-guide span{font-size:11px;color:var(--muted)}.meet-guide p{margin:0 0 0 12px;color:var(--muted);line-height:1.6}.meet-matrix th{background:#3d6fc2;color:white}.meet-matrix .rep-cell{max-width:160px;white-space:normal}.rep-cell span{color:#98a2b3}.meet-role{font-size:12px;font-weight:900}.meet-role.player{background:#edf4ff;color:#2457a7}.meet-role.referee{background:#fff0ce;color:#9a5b00}.meet-role.rest{color:#c7cdd6}.meet-points{background:#fff1f0;color:#d92d20;font-weight:1000}.meet-game .game-card-head{align-items:center}.ref-badge{background:#fff0ce;color:#9a5b00;border-radius:20px;padding:5px 9px;font-weight:800}.meet-game .game-teams small{display:block;max-width:100px;overflow:hidden;text-overflow:ellipsis;color:var(--muted);font-size:10px;margin:3px auto 7px}.meet-game .game-teams input{display:block;margin:auto}@media(max-width:900px){.meet-guide{grid-template-columns:repeat(3,1fr)}.meet-guide p{grid-column:1/-1;margin:8px 0 0}.meet-matrix{min-width:1050px}}@media(max-width:620px){.meet-guide{padding:15px 10px}.meet-guide>div{border-right:0}.meet-guide p{text-align:center}.meet-game .game-teams{gap:3px}.meet-game{padding:15px}}
